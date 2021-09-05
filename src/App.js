@@ -10,6 +10,8 @@ class App extends React.Component {
       lat: "",
       lon: "",
       displayName: "",
+      mapFlag:false,
+      displayErr:false
     };
   }
 
@@ -17,14 +19,21 @@ class App extends React.Component {
     event.preventDefault();
     const city = event.target.city.value;
     const url = `https://eu1.locationiq.com/v1/search.php?key=pk.4e5214464c0c4f393a7a4f8176cedf66&q=${city}&format=json`;
-
+    try {
     let response = await axios.get(url);
     this.setState({
       lat: response.data[0].lat,
       lon: response.data[0].lon,
       displayName: response.data[0].display_name,
       mapFlag: true,
-    });
+     });
+    }
+    catch
+    {
+    this.setState({
+      displayErr:true
+     });
+    }
   };
 
   render() {
@@ -47,12 +56,13 @@ class App extends React.Component {
           </Figure.Caption>
           <Figure.Caption>latitude : {this.state.lat}</Figure.Caption>
           <Figure.Caption>longitude : {this.state.lon}</Figure.Caption>
-          <Figure.Image
+          {this.state.mapFlag && <Figure.Image
             width={500}
             height={350}
             alt="500x350"
             src={`https://maps.locationiq.com/v3/staticmap?key=pk.4e5214464c0c4f393a7a4f8176cedf66&center=${this.state.lat},${this.state.lon}`}
-          />
+          />}
+          {this.state.displayErr && <p>Unable to geocode</p>}
         </Figure>
       </>
     );
