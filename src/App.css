@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@200&display=swap');
+
+body{
+  background-color: #afece0;
+  color: #724c05;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+h1{
+  text-align: center;
+}
+Form {
+  width: 50vw;
+  margin-left: 20px;
+}
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button{
+  width: 30%;
+  background-color: #e99c0e;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+figcaption{
+  margin-bottom: 20px;
+}
+
