@@ -18,7 +18,8 @@ class App extends React.Component {
   getLocationData = async (event) => {
     event.preventDefault();
     const city = event.target.city.value;
-    const url = `https://eu1.locationiq.com/v1/search.php?key=pk.4e5214464c0c4f393a7a4f8176cedf66&q=${city}&format=json`;
+    const key = process.env.REACT_APP_LOCATIONKEY;
+    const url = `https://eu1.locationiq.com/v1/search.php?key=${key}&q=${city}&format=json`;
     try {
     let response = await axios.get(url);
     this.setState({
@@ -60,7 +61,7 @@ class App extends React.Component {
             width={500}
             height={350}
             alt="500x350"
-            src={`https://maps.locationiq.com/v3/staticmap?key=pk.4e5214464c0c4f393a7a4f8176cedf66&center=${this.state.lat},${this.state.lon}`}
+            src={`https://maps.locationiq.com/v3/staticmap?key=pk.878d493504ee449bf0b7137790177cf1&center=${this.state.lat},${this.state.lon}`}
           />}
           {this.state.displayErr && <p>Unable to geocode</p>}
         </Figure>
