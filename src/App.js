@@ -10,8 +10,7 @@ class App extends React.Component {
       lat: "",
       lon: "",
       displayName: "",
-      date:'',
-      description:'',
+      weatherArr: [],
       mapFlag: false,
       displayErr: false,
     };
@@ -20,17 +19,10 @@ class App extends React.Component {
     const serverUrl = `http://localhost:4000/weather?lat=${this.state.lat}&lon=${this.state.lon}/`;
 
     let res = await axios.get(serverUrl);
-    res.data.map(item => {
-      this.setState({
-        date: item.date,
-        description: item.description
-      });
-      console.log(this.state.date);
-      console.log(this.state.description);
-      return item;
-    })
-      
-    
+    this.setState({
+      weatherArr: res.data,
+    });
+    console.log(this.state.weatherArr.date);
   };
   getLocationData = async (event) => {
     event.preventDefault();
@@ -73,7 +65,7 @@ class App extends React.Component {
 
         <Figure>
           <Figure.Caption>
-            Display name : {this.state.displayName}
+            Welcome to {this.state.displayName}
           </Figure.Caption>
           <Figure.Caption>latitude : {this.state.lat}</Figure.Caption>
           <Figure.Caption>longitude : {this.state.lon}</Figure.Caption>
@@ -82,13 +74,21 @@ class App extends React.Component {
               width={500}
               height={350}
               alt="500x350"
-              src={`https://maps.locationiq.com/v3/staticmap?key=pk.878d493504ee449bf0b7137790177cf1&center=${this.state.lat},${this.state.lon}`}
+              src={`https://maps.locationiq.com/v3/staticmap?key=pk.58721e9934343c988d3e205898b97680&center=${this.state.lat},${this.state.lon}`}
             />
           )}
-          <Figure.Caption>date : {this.state.date}</Figure.Caption>{" "}
-          <Figure.Caption>
-            description : {this.state.description}
-          </Figure.Caption>
+          {this.state.weatherArr.map((item) => {
+            return (
+              <>
+                <Figure.Caption>
+                  date : {item.date}
+                </Figure.Caption>
+                <Figure.Caption>
+                  description : {item.description}
+                </Figure.Caption>
+              </>
+            );
+          })}{" "}
           {this.state.displayErr && <p>Unable to geocode</p>}
         </Figure>
       </>
