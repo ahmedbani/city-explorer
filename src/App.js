@@ -11,6 +11,7 @@ class App extends React.Component {
       lat: "",
       lon: "",
       displayName: "",
+      cityName:'',
       weatherArr: [],
       moviesArr: [],
       mapFlag: false,
@@ -18,10 +19,10 @@ class App extends React.Component {
     };
   }
   getMovies = () => {
-    const serverUrl = "https://city-expo.herokuapp.com/movies";
+    const serverUrl = `https://city-expo.herokuapp.com/movies?query=${this.state.cityName}`;
     axios.get(serverUrl).then((result) => {
       this.setState({
-        weatherArr: result.data,
+        moviesArr: result.data,
       });
     });
   };
@@ -29,6 +30,7 @@ class App extends React.Component {
     const serverUrl = `https://city-expo.herokuapp.com/weather?lat=${this.state.lat}&lon=${this.state.lon}`;
 
     let res = await axios.get(serverUrl);
+    console.log(res.data);
     this.setState({
       weatherArr: res.data,
     });
@@ -44,6 +46,7 @@ class App extends React.Component {
         lat: response.data[0].lat,
         lon: response.data[0].lon,
         displayName: response.data[0].display_name,
+        cityName:city,
         mapFlag: true,
       });
       this.getWeather();
@@ -114,24 +117,20 @@ class App extends React.Component {
               <Card style={{ width: "18rem" }}>
                 <Card.Img
                   variant="top"
-                  src={this.state.moviesArr.image_url}
+                  src={item.image_url}
                 />
                 <Card.Body>
-                  <Card.Title>{this.state.moviesArr.title}</Card.Title>
+                  <Card.Title>{item.title}</Card.Title>
                   <Card.Text>
-                  overview: {this.state.moviesArr.overview}
+                  overview: {item.overview}
                   </Card.Text>
                 </Card.Body>
                 <ListGroup className="list-group-flush">
-                  <ListGroupItem>Average votes: {this.state.moviesArr.average_votes}</ListGroupItem>
-                  <ListGroupItem>Total votes: {this.state.moviesArr.total_votes}</ListGroupItem>
-                  <ListGroupItem>Popularity: {this.state.moviesArr.popularity}</ListGroupItem>
-                  <ListGroupItem>Release date: {this.state.moviesArr.released_on}</ListGroupItem>
+                  <ListGroupItem>Average votes: {item.average_votes}</ListGroupItem>
+                  <ListGroupItem>Total votes: {item.total_votes}</ListGroupItem>
+                  <ListGroupItem>Popularity: {item.popularity}</ListGroupItem>
+                  <ListGroupItem>Release date: {item.released_on}</ListGroupItem>
                 </ListGroup>
-                <Card.Body>
-                  <Card.Link href="#">Card Link</Card.Link>
-                  <Card.Link href="#">Another Link</Card.Link>
-                </Card.Body>
               </Card>{' '}
             </>
           );
